@@ -1,19 +1,8 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Edit Post</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        body {
-            background-color: #f8f9fa;
-        }
-        .post-image-preview {
-            max-height: 250px;
-            object-fit: cover;
-        }
-    </style>
-</head>
-<body>
+@extends('layouts.app')
+
+@section('title', 'Admin Dashboard')
+
+@section('content')
     <div class="container py-5">
         <div class="card shadow-sm">
             <div class="card-body">
@@ -33,7 +22,31 @@
                 <form action="{{ route('posts.update', $post->id) }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
+                <div class="mb-3">
+                    <label for="category_id" class="form-label">Category:</label>
+                    <select name="category_id" id="category_id" class="form-select select2-single" required>
+                        <option value="">-- Select Category --</option>
+                        @foreach ($categories as $category)
+                            <option value="{{ $category->id }}" 
+                                {{ (old('category_id', $post->category_id) == $category->id) ? 'selected' : '' }}>
+                                {{ $category->name }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
 
+                <div class="mb-3">
+                    <label for="tags" class="form-label">Tags:</label>
+                    <select class="js-example-basic-multiple js-example-tags" name="tags[]" id="tags" multiple="multiple"
+                        style="width: 100%;" required>
+                        @foreach ($tags as $tag)
+                            <option value="{{ $tag->id }}" 
+                                {{ (collect(old('tags', $post->tags->pluck('name')))->contains($tag->name)) ? 'selected' : '' }}>
+                                {{ $tag->name }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
                     <div class="mb-3">
                         <label for="title" class="form-label">Title:</label>
                         <input type="text" name="title" class="form-control" id="title" value="{{ old('title', $post->title) }}">
@@ -66,7 +79,4 @@
             </div>
         </div>
     </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+@endsection
