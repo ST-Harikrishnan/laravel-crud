@@ -21,10 +21,15 @@
     @endif
 </div>
 
-
-            <div class="card-footer">
+<div class="card-footer bg-light d-flex justify-content-between align-items-center">
+    <a href="{{ route('user.posts.index') }}" class="btn btn-secondary">← Back to Posts</a>
+    <small class="text-muted">
+        👁️ {{ $post->views }} views
+    </small>
+</div>
+            <!-- <div class="card-footer">
                 <a href="{{ route('user.posts.index') }}" class="btn btn-secondary">Back to Posts</a>
-            </div>
+            </div> -->
         </div>
     </div>
 

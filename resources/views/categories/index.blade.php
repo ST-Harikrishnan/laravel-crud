@@ -16,7 +16,10 @@
     <table class="table table-bordered">
         <thead>
             <tr>
-                <th>#</th><th>Name</th><th>Actions</th>
+                <th>#</th>
+                <th>Name</th>
+                <th>Images</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -24,6 +27,20 @@
                 <tr>
                     <td>{{ $loop->iteration }}</td>
                     <td>{{ $category->name }}</td>
+                    <td>
+                        @if($category->images->count())
+                            <div class="d-flex flex-wrap gap-2">
+                                @foreach ($category->images as $image)
+                                    <img src="{{ asset($image->image_path) }}"
+                                         alt="Category Image"
+                                         width="60" height="60"
+                                         class="rounded border">
+                                @endforeach
+                            </div>
+                        @else
+                            <span class="text-muted">No Images</span>
+                        @endif
+                    </td>
                     <td>
                         <a href="{{ route('categories.edit', $category->id) }}" class="btn btn-sm btn-primary">Edit</a>
                         <form action="{{ route('categories.destroy', $category->id) }}" method="POST" class="d-inline-block">
@@ -33,7 +50,7 @@
                     </td>
                 </tr>
             @empty
-                <tr><td colspan="3">No categories found.</td></tr>
+                <tr><td colspan="4">No categories found.</td></tr>
             @endforelse
         </tbody>
     </table>

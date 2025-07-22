@@ -10,10 +10,12 @@ use Illuminate\Support\Facades\Auth;
 
 class IsAdmin
 {
-    public function handle($request, Closure $next)
+     public function handle(Request $request, Closure $next, ...$roles)
     {
-        if (!Auth::check() || !Auth::user()->is_admin) {
-            return redirect('/')->with('error', 'Access denied.');
+        $user = $request->user();
+
+        if (!$user || !in_array($user->role, $roles)) {
+            abort(403, 'Unauthorized');
         }
 
         return $next($request);

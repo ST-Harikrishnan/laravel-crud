@@ -58,24 +58,35 @@
                     </div>
 
                     <div class="mb-3">
-                        <label for="post_image" class="form-label">Upload New Image:</label>
-                        <input type="file" name="post_image" class="form-control" id="post_image">
-                    </div>
+            <label for="post_image" class="form-label">Post Image:</label>
+            <input type="file" name="images[]" id="post_image" class="form-control" multiple>
+        </div>
 
-                    @if ($post->post_image)
-                        <div class="mb-3">
-                            <label class="form-label">Current Image:</label>
-                            <div>
-                                <img src="{{ asset('images/' . $post->post_image) }}" alt="Post Image" class="img-fluid rounded post-image-preview">
-                            </div>
-                        </div>
-                    @endif
-
-                    <div class="d-flex justify-content-between mt-4">
+        
+                    <div class="d-flex justify-content-between mt-4 mb-4">
                         <button type="submit" class="btn btn-success">Update Post</button>
                         <a href="{{ route('posts.index') }}" class="btn btn-secondary">Back to Posts</a>
                     </div>
-                </form>
+                </form>  
+                  @if($post->images->count())
+                <div class="mb-3">
+                    <label>Blog Images:</label>
+                    <div class="d-flex flex-wrap gap-3">
+                        @foreach($post->images as $image)
+                            <div class="position-relative border p-1" style="width: 100px;">
+                                <img src="{{ asset($image->image_path) }}" alt="Post Image" class="img-fluid rounded">
+
+                                <form action="{{ route('post-images.destroy', $image->id) }}" method="POST" onsubmit="return confirm('Delete this image?')" class="mt-1">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button class="btn btn-sm btn-danger w-100">Delete</button>
+                                </form>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+            @endif
+
             </div>
         </div>
     </div>

@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $posts = Post::all();
         return view('posts.index', compact('posts'));

@@ -6,7 +6,8 @@
     <title>@yield('title', 'Blog Site')</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
     <style>
     body {
         min-height: 100vh;
@@ -44,7 +45,8 @@
         html.setAttribute("data-bs-theme", current === "dark" ? "light" : "dark");
     }
     </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
     document.addEventListener('DOMContentLoaded', function() {
@@ -52,6 +54,7 @@
 
         deleteButtons.forEach(button => {
             button.addEventListener('click', function(e) {
+                 e.preventDefault(); 
                 const form = this.closest('form');
 
                 Swal.fire({
@@ -79,7 +82,6 @@
 
     });
     </script>
-    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
     <script>
@@ -90,48 +92,35 @@
             ajax: {
                 url: '{{ route('admin.users.data') }}',
                 data: function(d) {
-                    d.role = $('#roleFilter').val();
+                    d.role = $('#roleFilter').val(); // Send selected role to server
                 }
             },
-             language: {
-            search: "_INPUT_",
-            searchPlaceholder: "🔍 Search users...",
-            lengthMenu: "Show _MENU_ entries",
-            paginate: {
-                previous: "<<  Prev",
-                next: "Next >>"
+            language: {
+                search: "_INPUT_",
+                searchPlaceholder: "🔍 Search users...",
+                lengthMenu: "Show _MENU_ entries",
+                paginate: {
+                    previous: "<<  Prev",
+                    next: "Next >>"
+                },
+                info: "Showing _START_ to _END_ of _TOTAL_ users"
             },
-            info: "Showing _START_ to _END_ of _TOTAL_ users"
-        },
-        dom: '<"d-flex justify-content-between align-items-center m-3"lf>rt<"d-flex justify-content-between align-items-center mt-3"ip>',
-            columns: [{
-                    data: 'name',
-                    name: 'name'
-                },
-                {
-                    data: 'email',
-                    name: 'email'
-                },
-                {
-                    data: 'role',
-                    name: 'role',
-                    orderable: false,
-                    searchable: false
-                },
-                {
-                    data: 'action',
-                    name: 'action',
-                    orderable: false,
-                    searchable: false
-                }
+            dom: '<"d-flex justify-content-between align-items-center m-3"lf>rt<"d-flex justify-content-between align-items-center mt-3"ip>',
+            columns: [
+                { data: 'name', name: 'name' },
+                { data: 'email', name: 'email' },
+                { data: 'role', name: 'role', orderable: false, searchable: false },
+                { data: 'action', name: 'action', orderable: false, searchable: false }
             ]
         });
 
+        // Trigger redraw on role filter change
         $('#roleFilter').change(function() {
             table.draw();
         });
     });
     </script>
+
 
 </body>
 

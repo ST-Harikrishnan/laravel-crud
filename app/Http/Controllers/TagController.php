@@ -9,7 +9,7 @@ class TagController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         $tags = Tag::all();
         return view('tags.index', compact('tags'));

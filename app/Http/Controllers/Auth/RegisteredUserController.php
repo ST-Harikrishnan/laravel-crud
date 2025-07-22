@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Events\UserRegistered;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
@@ -19,6 +20,7 @@ class RegisteredUserController extends Controller
      */
     public function create(): View
     {
+        
         return view('auth.register');
     }
 
@@ -42,6 +44,7 @@ class RegisteredUserController extends Controller
         ]);
 
         event(new Registered($user));
+        event(new UserRegistered($user));
 
         Auth::login($user);
 

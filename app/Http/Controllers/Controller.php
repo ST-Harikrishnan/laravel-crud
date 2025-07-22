@@ -4,9 +4,10 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\Post;
 use App\Models\Tag;
+use Illuminate\Http\Request;
 abstract class Controller
 {
-     public function index()
+     public function index(Request $request)
     {
         $categories = Category::all();
 

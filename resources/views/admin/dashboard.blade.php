@@ -17,6 +17,10 @@
         <i class="bi bi-person-circle me-2"></i> Welcome, Admin!
     </div>
 
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <a href="{{ route('user.create') }}" class="btn btn-primary shadow">+ Create User</a>
+    </div>
+
     <!-- Success Message -->
     @if(session('success'))
     <div class="alert alert-success alert-dismissible fade show rounded-3" role="alert">
@@ -24,7 +28,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
     @endif
-
+   
     <!-- Filter and Table Card -->
     <div class="card shadow-sm rounded-4 m-3" >
         <div class="card-header bg-light border-bottom d-flex justify-content-between align-items-center">
@@ -35,6 +39,7 @@
                     <option value="">All</option>
                     <option value="admin">Admin</option>
                     <option value="user">User</option>
+                    <option value="editor">Editor</option>
                 </select>
             </div>
         </div>
@@ -50,32 +55,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @forelse ($users as $user)
-                    <tr>
-                        <td class="fw-semibold">{{ $user->name }}</td>
-                        <td>{{ $user->email }}</td>
-                        <td class="text-center">
-                            @if ($user->is_admin)
-                                <span class="badge bg-success">Admin</span>
-                            @else
-                                <form action="{{ route('admin.make-admin', $user->id) }}" method="POST" class="d-inline">
-                                    @csrf
-                                    <button type="submit" class="btn btn-sm btn-warning">Make Admin</button>
-                                </form>
-                            @endif
-                        </td>
-                        <td class="text-center">
-                            <form action="{{ route('admin.send-welcome-email', $user->id) }}" method="POST" class="d-inline">
-                                @csrf
-                                <button class="btn btn-sm btn-primary">Send Email</button>
-                            </form>
-                        </td>
-                    </tr>
-                    @empty
-                    <tr>
-                        <td colspan="4" class="text-center text-muted fst-italic py-3">No users found.</td>
-                    </tr>
-                    @endforelse
+                    
                 </tbody>
             </table>
         </div>

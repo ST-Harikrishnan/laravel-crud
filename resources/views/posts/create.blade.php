@@ -59,8 +59,9 @@
         {{-- Image --}}
         <div class="mb-3">
             <label for="post_image" class="form-label">Post Image:</label>
-            <input type="file" name="post_image" id="post_image" class="form-control">
+            <input type="file" name="images[]" id="post_image" class="form-control" multiple>
         </div>
+         
 
         {{-- Submit --}}
         <div class="d-flex justify-content-between">
